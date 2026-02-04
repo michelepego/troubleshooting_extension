@@ -38,6 +38,8 @@ const detectUsercentricsVersion = () => {
 const logPageInfo = (reason) => {
   const info = collectPageInfo();
   const usercentrics = detectUsercentricsVersion();
+const logPageInfo = (reason) => {
+  const info = collectPageInfo();
   console.group(`Support Assistant: Page Snapshot (${reason})`);
   console.log('Title:', info.title);
   console.log('URL:', info.url);
@@ -52,6 +54,9 @@ const logPageInfo = (reason) => {
   console.log('Captured at:', info.timestamp);
   console.groupEnd();
   return { ...info, usercentrics };
+  console.log('Captured at:', info.timestamp);
+  console.groupEnd();
+  return info;
 };
 
 chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {

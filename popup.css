@@ -152,6 +152,7 @@ button.full-width {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+  gap: 8px;
   padding: 8px;
   border-radius: 10px;
   background: #f8f9ff;
@@ -167,6 +168,10 @@ button.full-width {
 
 .checklist-item input {
   accent-color: #1f5eff;
+}
+
+.checklist-item span {
+  font-size: 12px;
 }
 
 dialog {

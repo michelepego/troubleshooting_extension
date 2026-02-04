@@ -53,7 +53,6 @@ const templatesContainer = document.querySelector('#templates');
 const checklistContainer = document.querySelector('#checklist');
 const addLinkButton = document.querySelector('#addLink');
 const addTemplateButton = document.querySelector('#addTemplate');
-const addChecklistButton = document.querySelector('#addChecklist');
 const resetButton = document.querySelector('#resetDefaults');
 const logPageInfoButton = document.querySelector('#logPageInfo');
 const pageStatus = document.querySelector('#pageStatus');
@@ -212,9 +211,22 @@ const openEditor = (type, index = null) => {
         : state.checklist[index];
     editorLabel.value = data.label;
     editorValue.value = data.value ?? '';
+  editorTitle.textContent = index === null ? `Add ${type}` : `Edit ${type}`;
+  editorValueWrapper.style.display = 'flex';
+  editorValue.required = true;
+
+  if (index !== null) {
+    const data = isLink ? state.links[index] : state.templates[index];
+    editorLabel.value = data.label;
+    editorValue.value = data.value;
   } else {
     editorLabel.value = '';
     editorValue.value = '';
+  }
+
+  if (!isLink && !isTemplate) {
+    editorValueWrapper.style.display = 'none';
+    editorValue.required = false;
   }
 
   editor.showModal();
@@ -318,21 +330,6 @@ editor.addEventListener('close', () => {
     } else {
       state.templates[editingContext.index] = {
         ...state.templates[editingContext.index],
-        ...item
-      };
-    }
-  }
-
-  if (editingContext.type === 'checklist') {
-    const item = {
-      label,
-      done: editingContext.index === null ? false : state.checklist[editingContext.index].done
-    };
-    if (editingContext.index === null) {
-      state.checklist.push(item);
-    } else {
-      state.checklist[editingContext.index] = {
-        ...state.checklist[editingContext.index],
         ...item
       };
     }
