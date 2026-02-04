@@ -167,6 +167,23 @@ const renderChecklist = () => {
     checkbox.checked = item.done;
     checkbox.addEventListener('change', () => toggleChecklist(index));
     node.querySelector('span').textContent = item.label;
+
+    const actions = node.querySelector('.item__actions');
+    actions.replaceWith(
+      createItemActions([
+        {
+          label: 'Edit',
+          className: 'edit',
+          handler: () => openEditor('checklist', index)
+        },
+        {
+          label: 'Remove',
+          className: 'remove',
+          handler: () => removeItem('checklist', index)
+        }
+      ])
+    );
+
     checklistContainer.appendChild(node);
   });
 };
@@ -181,6 +198,19 @@ const openEditor = (type, index = null) => {
   editingContext = { type, index };
   const isLink = type === 'link';
   const isTemplate = type === 'template';
+  const isChecklist = type === 'checklist';
+  editorTitle.textContent = index === null ? `Add ${type}` : `Edit ${type}`;
+  editorValueWrapper.style.display = isChecklist ? 'none' : 'flex';
+  editorValue.required = !isChecklist;
+
+  if (index !== null) {
+    const data = isLink
+      ? state.links[index]
+      : isTemplate
+        ? state.templates[index]
+        : state.checklist[index];
+    editorLabel.value = data.label;
+    editorValue.value = data.value ?? '';
   editorTitle.textContent = index === null ? `Add ${type}` : `Edit ${type}`;
   editorValueWrapper.style.display = 'flex';
   editorValue.required = true;
@@ -251,6 +281,7 @@ const logCurrentPageInfo = async () => {
 
 addLinkButton.addEventListener('click', () => openEditor('link'));
 addTemplateButton.addEventListener('click', () => openEditor('template'));
+addChecklistButton.addEventListener('click', () => openEditor('checklist'));
 resetButton.addEventListener('click', async () => {
   state = structuredClone(defaultData);
   await saveState();

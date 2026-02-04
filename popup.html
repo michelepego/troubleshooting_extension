@@ -47,6 +47,7 @@
     <section class="card">
       <div class="card__title">
         <h2>Shift Checklist</h2>
+        <button id="addChecklist" type="button">Add</button>
       </div>
       <p class="card__subtitle">Track the daily items that keep the queue healthy.</p>
       <div id="checklist" class="stack"></div>
@@ -81,6 +82,16 @@
     </template>
 
     <template id="checklistTemplate">
+      <div class="checklist-item">
+        <label class="checklist-item__label">
+          <input type="checkbox" />
+          <span></span>
+        </label>
+        <div class="item__actions">
+          <button class="edit" type="button">Edit</button>
+          <button class="remove" type="button">Remove</button>
+        </div>
+      </div>
       <label class="checklist-item">
         <input type="checkbox" />
         <span></span>

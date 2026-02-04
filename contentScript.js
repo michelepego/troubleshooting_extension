@@ -1,3 +1,6 @@
+const USERCENTRICS_V2_SRC = 'https://app.usercentrics.eu/browser-ui/latest/loader.js';
+const USERCENTRICS_V3_SRC = 'https://web.cmp.usercentrics.eu/ui/loader.js';
+
 const collectPageInfo = () => {
   const title = document.title;
   const url = window.location.href;
@@ -16,6 +19,25 @@ const collectPageInfo = () => {
   };
 };
 
+const detectUsercentricsVersion = () => {
+  const scripts = Array.from(document.querySelectorAll('script[src]'));
+  const hasV2 = scripts.some((script) => script.src.includes(USERCENTRICS_V2_SRC));
+  const hasV3 = scripts.some((script) => script.src.includes(USERCENTRICS_V3_SRC));
+
+  if (hasV2) {
+    return { version: 'V2', mainFunction: 'UC_UI' };
+  }
+
+  if (hasV3) {
+    return { version: 'V3', mainFunction: '__ucCmp' };
+  }
+
+  return null;
+};
+
+const logPageInfo = (reason) => {
+  const info = collectPageInfo();
+  const usercentrics = detectUsercentricsVersion();
 const logPageInfo = (reason) => {
   const info = collectPageInfo();
   console.group(`Support Assistant: Page Snapshot (${reason})`);
@@ -23,6 +45,15 @@ const logPageInfo = (reason) => {
   console.log('URL:', info.url);
   console.log('Meta description:', info.metaDescription || 'N/A');
   console.log('Headings:', info.headings.length ? info.headings : 'No headings found');
+  if (usercentrics) {
+    console.log('Usercentrics version:', usercentrics.version);
+    console.log('Main function:', usercentrics.mainFunction);
+  } else {
+    console.log('Usercentrics version: Not detected');
+  }
+  console.log('Captured at:', info.timestamp);
+  console.groupEnd();
+  return { ...info, usercentrics };
   console.log('Captured at:', info.timestamp);
   console.groupEnd();
   return info;
