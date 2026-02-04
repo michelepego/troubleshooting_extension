@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Support Assistant</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <header>
+      <div>
+        <p class="eyebrow">Daily Support Toolkit</p>
+        <h1>Support Assistant</h1>
+      </div>
+      <button id="resetDefaults" type="button">Reset</button>
+    </header>
+
+    <section class="card">
+      <div class="card__title">
+        <h2>Page Insights</h2>
+      </div>
+      <p class="card__subtitle">Capture the current page details and log them in the console.</p>
+      <div class="stack">
+        <button id="logPageInfo" class="full-width" type="button">Log current page</button>
+        <p id="pageStatus" class="helper-text">Waiting for a tab selection.</p>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card__title">
+        <h2>Quick Links</h2>
+        <button id="addLink" type="button">Add</button>
+      </div>
+      <p class="card__subtitle">Open the tools you use most each day with one click.</p>
+      <div id="links" class="stack"></div>
+    </section>
+
+    <section class="card">
+      <div class="card__title">
+        <h2>Response Templates</h2>
+        <button id="addTemplate" type="button">Add</button>
+      </div>
+      <p class="card__subtitle">Copy common responses directly into your clipboard.</p>
+      <div id="templates" class="stack"></div>
+    </section>
+
+    <section class="card">
+      <div class="card__title">
+        <h2>Shift Checklist</h2>
+        <button id="addChecklist" type="button">Add</button>
+      </div>
+      <p class="card__subtitle">Track the daily items that keep the queue healthy.</p>
+      <div id="checklist" class="stack"></div>
+    </section>
+
+    <template id="linkTemplate">
+      <div class="item">
+        <div>
+          <p class="item__title"></p>
+          <p class="item__meta"></p>
+        </div>
+        <div class="item__actions">
+          <button class="open" type="button">Open</button>
+          <button class="edit" type="button">Edit</button>
+          <button class="remove" type="button">Remove</button>
+        </div>
+      </div>
+    </template>
+
+    <template id="templateTemplate">
+      <div class="item">
+        <div>
+          <p class="item__title"></p>
+          <p class="item__meta"></p>
+        </div>
+        <div class="item__actions">
+          <button class="copy" type="button">Copy</button>
+          <button class="edit" type="button">Edit</button>
+          <button class="remove" type="button">Remove</button>
+        </div>
+      </div>
+    </template>
+
+    <template id="checklistTemplate">
+      <div class="checklist-item">
+        <label class="checklist-item__label">
+          <input type="checkbox" />
+          <span></span>
+        </label>
+        <div class="item__actions">
+          <button class="edit" type="button">Edit</button>
+          <button class="remove" type="button">Remove</button>
+        </div>
+      </div>
+    </template>
+
+    <dialog id="editor">
+      <form method="dialog">
+        <h3 id="editorTitle">Add item</h3>
+        <label>
+          <span>Label</span>
+          <input id="editorLabel" name="label" required />
+        </label>
+        <label id="editorValueWrapper">
+          <span>Value</span>
+          <input id="editorValue" name="value" />
+        </label>
+        <div class="dialog-actions">
+          <button value="cancel" type="submit">Cancel</button>
+          <button id="editorSave" value="save" type="submit">Save</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script src="popup.js"></script>
+  </body>
+</html>
